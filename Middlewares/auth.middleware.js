@@ -27,6 +27,12 @@ function isTokenValid(req, res, next) {
 }
 
 
+// ESTO ME PODRÍA SERVIR PARA LAS RUTAS
+// Rutas protegidas para administradores en el backend
+// app.get('/admin/management', isTokenValid, isAdmin, (req, res) => {
+//   // Si el usuario es un administrador, se le permite acceder
+//   res.json({ message: 'Admin dashboard. Welcome, administrator.' });
+// });
 
 function isAdmin(req, res, next) {
   if (req.payload && req.payload.role === 'admin') {
@@ -39,15 +45,6 @@ function isAdmin(req, res, next) {
 };
 
 
-//--------------------------------------------------------------
-// const isAdmin = require('../middlewares/auth.middleware');
-
-// // Ruta protegida para administradores
-// app.get('/admin/dashboard', authMiddlewares.isTokenValid, authMiddlewares.isAdmin, (req, res) => {
-//   // Si el usuario es un administrador, se le permite acceder
-//   res.json({ message: 'Bienvenido administrador.' });
-// });
-//--------------------------------------------------------------
 
 module.exports = isTokenValid;
 module.exports.isAdmin = isAdmin;
