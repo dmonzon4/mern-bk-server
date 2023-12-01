@@ -3,7 +3,7 @@ const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
-// const isTokenValid = require("../middlewares/auth.middlewares");
+const isTokenValid = require("../middlewares/auth.middleware");
 const User = require("../models/User.model");
 // const isAdmin = require('../middleware/isAdmin');
 
@@ -105,13 +105,14 @@ router.post("/login", async (req, res, next) => {
       return;
     }
 
-    // si todo sale bien este es el momento en donde crearíamos una sesión activa del usuario
+    // este es el momento en donde crearíamos una sesión activa del usuario
 
     // payload es toda la información que identifica al usuario, agregamos información que no debería cambiar
 
     const payload = {
-      _id: foundUser._id,
+      _id: foundUser._id, // (para buscar el username más adelante!!!!!!!)
       email: foundUser.email,
+      role: foundUser.role
       // SI TUVIERAMOS ROLES LOS AGREGAMOS AQUÍ TAMBIÉN
     };
 
@@ -126,5 +127,18 @@ router.post("/login", async (req, res, next) => {
 });
 
 // GET "/api/auth/verify" => Indicar al Frontend si el que está de visita en la página está activo y quién es (rol, etc.)
+router.get("/verify", isTokenValid, (req, res, next) => {
+  // POR MEDIO DEL REQ:PAYLOAD EL SERVIDOR (EXPRESS) SABE QUIÉN ES EL USUARIO QUE ESTÁ HACIENDO LAS LLAMADAS
+  console.log(req.payload)
+  // 1. valida el token del user
+  // 2. recibe el payload
+  // 3. envía el payload al lado del cliente
+  // - indica si el user esta logeado o no
+  // - si está logeado indica que usuario es
+
+  // res.json("todo ok")
+  res.json({ payload: req.payload });
+  // SE ENVÍA EL PAYLOAD PARA QUE EL CLIENT (REACT) SEPA QUIÉN ES EL USUARIO QUE ESTÁ NAVEGANDO Y SU ESTATUS
+});
 
 module.exports = router;
