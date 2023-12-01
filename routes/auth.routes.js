@@ -2,7 +2,10 @@ const router = require("express").Router();
 
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
+const jwt = require("jsonwebtoken");
+// const isTokenValid = require("../middlewares/auth.middlewares");
 const User = require("../models/User.model");
+// const isAdmin = require('../middleware/isAdmin');
 
 // POST "/api/auth/signup" => recibe data del ususario y lo crea en la DB
 router.post("/signup", async (req, res, next) => {
@@ -77,6 +80,50 @@ router.post("/signup", async (req, res, next) => {
 });
 
 // POST "/api/auth/login" => recibir credenciales del usuario y validarlo
+router.post("/login", async (req, res, next) => {
+  console.log(req.body);
+
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    res
+      .status(400)
+      .json({ errorMessage: "All fields are required to be filled" });
+    return; // detiene la ejecución de la ruta
+  }
+
+  try {
+    const foundUser = await User.findOne({ email: email });
+    if (!foundUser) {
+      res.status(400).json({ errorMessage: "This user does not exist" });
+      return;
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, foundUser.password);
+    if (!isPasswordValid) {
+      res.status(400).json({ errorMessage: "Invalid password" });
+      return;
+    }
+
+    // si todo sale bien este es el momento en donde crearíamos una sesión activa del usuario
+
+    // payload es toda la información que identifica al usuario, agregamos información que no debería cambiar
+
+    const payload = {
+      _id: foundUser._id,
+      email: foundUser.email,
+      // SI TUVIERAMOS ROLES LOS AGREGAMOS AQUÍ TAMBIÉN
+    };
+
+    const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+      expiresIn: "2 days",
+    });
+
+    res.json({ authToken: authToken });
+  } catch (error) {
+    next(error);
+  }
+});
 
 // GET "/api/auth/verify" => Indicar al Frontend si el que está de visita en la página está activo y quién es (rol, etc.)
 

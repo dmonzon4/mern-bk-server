@@ -24,6 +24,11 @@ const userSchema = new Schema(
     phoneNumber: {
       type: String,
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user"
+    }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`    
