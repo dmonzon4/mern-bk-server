@@ -111,6 +111,7 @@ router.post("/login", async (req, res, next) => {
 
     const payload = {
       _id: foundUser._id, // (para buscar el username más adelante!!!!!!!)
+      username: foundUser.username,
       email: foundUser.email,
       role: foundUser.role
       // SI TUVIERAMOS ROLES LOS AGREGAMOS AQUÍ TAMBIÉN
