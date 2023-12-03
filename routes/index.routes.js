@@ -7,56 +7,94 @@ router.get("/", (req, res, next) => {
 const authRouter = require("./auth.routes")
 router.use("/auth", authRouter)
 
-// Nuevas rutas
-router.get("/user/profile", (req, res) => {
-  // Lógica para obtener el perfil del usuario
-});
+const reservationRouter = require("./reservation.routes")
+router.use("/reservations", reservationRouter)
 
-router.get("/areas", (req, res) => {
-  // Lógica para obtener todas las áreas
-});
+const productRouter = require("./product.routes")
+router.use("/products", productRouter)
 
-router.get("/menu/food", (req, res) => {
-  // Lógica para obtener el menú de comida
-});
+const areaRouter = require("./area.routes")
+router.use("/areas", areaRouter)
 
-router.get("/menu/drink", (req, res) => {
-  // Lógica para obtener el menú de bebidas
-});
 
-router.post("/reservations", (req, res) => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Nuevas rutas!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+// router.get("/user/profile", (req, res, next) => {
+//   // Lógica para obtener el perfil del usuario
+// });
+
+router.post("/reservations/new-reservation", (req, res, next) => {
   // Lógica para crear una nueva reserva
 });
 
-router.get("/reservations", (req, res) => {
+router.get("/reservations", (req, res, next) => {
   // Lógica para obtener todas las reservaciones
 });
 
-router.get("/reservations/:id", (req, res) => {
+router.get("/reservations/:id", (req, res, next) => {
   // Lógica para obtener una reserva específica por ID
 });
 
-router.put("/reservations/:id", (req, res) => {
+router.put("/reservations/:id", (req, res, next) => {
   // Lógica para actualizar una reserva por ID
 });
 
-router.delete("/reservations/:id", (req, res) => {
+router.delete("/reservations/:id", (req, res, next) => {
   // Lógica para eliminar una reserva por ID
 });
 
-router.get("/products", (req, res) => {
+router.get("/areas", (req, res, next) => {
+  // Lógica para obtener todas las áreas
+});
+
+// ********************************************************
+router.get("/menu/food", (req, res, next) => {
+  // Lógica para obtener el menú de comida
+});
+
+router.get("/menu/drink", (req, res, next) => {
+  // Lógica para obtener el menú de bebidas
+});
+// ********************************************************
+
+router.get("/products", (req, res, next) => {
   // Lógica para obtener todos los productos
 });
 
-router.post("/products", (req, res) => {
+router.post("/products", (req, res, next) => {
   // Lógica para crear un nuevo producto
 });
 
-router.put("/products/:id", (req, res) => {
+router.put("/products/:id", (req, res, next) => {
   // Lógica para actualizar un producto por ID
 });
 
-router.delete("/products/:id", (req, res) => {
+router.delete("/products/:id", (req, res, next) => {
   // Lógica para eliminar un producto por ID
 });
 

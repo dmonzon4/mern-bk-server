@@ -10,16 +10,15 @@ const productSchema = new Schema(
       type: Number,
       required: true,
     },
-    image: {
-      type: String,
-      required: true,
-    },
     category: {
       type: String,
       enum: ['food', 'drink'],
       required: true,
     },
-    // Otros campos relacionados con el producto, si los hubiera
+    image: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

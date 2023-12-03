@@ -7,20 +7,20 @@ const reservationSchema = new Schema(
       ref: 'User', // Referencia al modelo de Usuario
       required: true,
     },
-    area_reserved: {
+    reservedArea: {
       type: Schema.Types.ObjectId,
       ref: 'Area', // Referencia al modelo de Área del Restaurante
       required: true,
     },
-    date_time: {
+    reservationDate: {
       type: Date,
       required: true,
     },
-	time: {
+	  reservationTime: {
       type: String, 
       required: true,
     },
-    number_of_people: {
+    numberOfPeople: {
       type: Number,
       required: true,
     },
@@ -29,6 +29,8 @@ const reservationSchema = new Schema(
     timestamps: true,
   }
 );
+
+reservationSchema.index({ area_reserved: 1, reservationDate: 1, reservationTime: 1 }, { unique: true });
 
 const Reservation = model("Reservation", reservationSchema);
 
