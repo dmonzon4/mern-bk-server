@@ -4,10 +4,6 @@ const router = require("express").Router();
 
 
 
-// GET	api/reservations/:id => Obtiene los detalles de una reserva por su ID
-// PUT	api/reservations/:id => Actualiza una reserva existente por su ID
-// DELETE	api/reservations/:id => Elimina una reserva específica por su ID
-
 // GET	api/reservations => Obtiene todas las reservas
 router.get("/", async (req, res, next) => {
 
@@ -33,7 +29,7 @@ router.post("/", async (req, res, next) => {
   try {
     await Reservation.create({ user, reservedArea, reservationDate, reservationTime, numberOfPeople })
 
-    res.status(201).json("Reservacion creada")
+    res.status(201).json("The reservation has been successfully created!")
 
   } catch (error) {
     next(error)
@@ -41,6 +37,50 @@ router.post("/", async (req, res, next) => {
   }
 
 })
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// router.post("/", async (req, res, next) => {
+//   const { user, reservedArea, reservationDate, reservationTime, numberOfPeople } = req.body;
+
+//   try {
+//     let message = '';
+
+//     // Verificar si la hora está reservada para otra reserva
+//     const existingTimeReservation = await Reservation.findOne({
+//       reservationDate,
+//       reservationTime,
+//     });
+
+//     if (existingTimeReservation) {
+//       message = "The selected time is already reserved";
+//     }
+
+//     // Verificar si el área está reservada para esa fecha y hora
+//     const existingAreaReservation = await Reservation.findOne({
+//       reservedArea,
+//       reservationDate,
+//       reservationTime,
+//     });
+
+//     if (existingAreaReservation) {
+//       message = "The selected area is already reserved for this date and time";
+//     }
+
+//     // Mostrar mensaje de error si se encontró alguna reserva existente
+//     if (message) {
+//       return res.status(400).json({ message });
+//     }
+
+//     // Si no hay conflictos, crear la nueva reserva
+//     await Reservation.create({ user, reservedArea, reservationDate, reservationTime, numberOfPeople });
+
+//     res.status(201).json("The reservation has been created");
+
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
 
 // GET	api/reservations/:reservationId => Obtiene los detalles de una reserva por su ID
 router.get("/:reservationId", async (req, res, next) => {
@@ -60,7 +100,98 @@ router.get("/:reservationId", async (req, res, next) => {
 
 })
 
+// DELETE	api/reservations/:reservationId => Elimina una reserva específica por su ID
+router.delete("/:reservationId", async (req, res, next) => {
 
+  try {
+
+    await Reservation.findByIdAndDelete(req.params.reservationId)
+    res.json("The reservation has been cancelled")
+
+  } catch (error) {
+    next(error)
+    
+  }
+
+})
+
+// PUT	api/reservations/:reservationId => Actualiza totlamente una reserva existente por su ID
+router.put("/:reservationId", async (req, res, next) => {
+  const { reservationId } = req.params;
+  const { user, reservedArea, reservationDate, reservationTime, numberOfPeople } = req.body
+
+  console.log(req.params, req.body)
+
+  try {
+
+    await Reservation.findByIdAndUpdate(reservationId, { user, reservedArea, reservationDate, reservationTime, numberOfPeople })
+    res.json("The reservation has been updated")
+    
+  } catch (error) {
+    next(error)
+  }
+
+})
+
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// router.put("/:reservationId", async (req, res, next) => {
+//   const { reservationId } = req.params;
+//   const { user, reservedArea, reservationDate, reservationTime, numberOfPeople } = req.body;
+
+//   try {
+//     let message = '';
+
+//     // Verificar si la hora está reservada para otra reserva
+//     const existingTimeReservation = await Reservation.findOne({
+//       _id: { $ne: reservationId }, // Excluir la reserva actual
+//       reservationDate,
+//       reservationTime,
+//     });
+
+//     if (existingTimeReservation) {
+//       message = "The selected time is already reserved";
+//     }
+
+//     // Verificar si el área está reservada para esa fecha y hora
+//     const existingAreaReservation = await Reservation.findOne({
+//       _id: { $ne: reservationId }, // Excluir la reserva actual
+//       reservedArea,
+//       reservationDate,
+//       reservationTime,
+//     });
+
+//     if (existingAreaReservation) {
+//       message = "The selected area is already reserved for this date and time";
+//     }
+
+//     // Mostrar mensaje de error si se encontró alguna reserva existente
+//     if (message) {
+//       return res.status(400).json({ message });
+//     }
+
+//     // Actualizar la reserva existente
+//     const updatedReservation = await Reservation.findByIdAndUpdate(reservationId, {
+//       reservedArea,
+//       reservationDate,
+//       reservationTime,
+//       numberOfPeople,
+//     });
+
+//     if (!updatedReservation) {
+//       return res.status(404).json({ message: "The reservation was not found" });
+//     }
+
+//     res.status(200).json({ message: "Reservation successfully updated", updatedReservation });
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+
+
+
+// PATCH	api/reservations/:reservationId => Actualiza parcialmente una reserva existente por su ID
 
 
 

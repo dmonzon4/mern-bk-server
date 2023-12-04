@@ -30,7 +30,7 @@ const reservationSchema = new Schema(
   }
 );
 
-reservationSchema.index({ area_reserved: 1, reservationDate: 1, reservationTime: 1 }, { unique: true });
+// reservationSchema.index({ area_reserved: 1, reservationDate: 1, reservationTime: 1 }, { unique: true });
 
 const Reservation = model("Reservation", reservationSchema);
 

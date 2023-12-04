@@ -29,7 +29,7 @@ router.post("/", async (req, res, next) => {
   try {
     await Product.create({ name, price, category, image })
 
-    res.status(201).json("Producto creado")
+    res.status(201).json("The product has been successfully created!")
 
   } catch (error) {
     next(error)
@@ -51,6 +51,38 @@ router.get("/:productId", async (req, res, next) => {
     res.json(oneProduct)
 
   } catch (error){
+    next(error)
+  }
+
+})
+
+// DELETE	api/products/:productId => Elimina un producto específico por su ID
+router.delete("/:productId", async (req, res, next) => {
+
+  try {
+
+    await Product.findByIdAndDelete(req.params.productId)
+    res.json("The product has been removed")
+
+  } catch (error) {
+    next(error)
+    
+  }
+
+})
+
+// PUT	api/products/:productId => Actualiza totlamente un producto existente por su ID
+router.put("/:productId", async (req, res, next) => {
+  const { productId } = req.params;
+  const { name, price, category, image  } = req.body
+
+  console.log(req.params, req.body)
+
+  try {
+    await Product.findByIdAndUpdate(productId, { name, price, category, image })
+    res.json("The product has been updated")
+    
+  } catch (error) {
     next(error)
   }
 

@@ -28,7 +28,7 @@ router.post("/", async (req, res, next) => {
   try {
     await Area.create({ name, image })
 
-    res.status(201).json("Area creada")
+    res.status(201).json("The area has been successfully created!")
 
   } catch (error) {
     next(error)
@@ -50,6 +50,38 @@ router.get("/:areaId", async (req, res, next) => {
     res.json(oneArea)
 
   } catch (error){
+    next(error)
+  }
+
+})
+
+// DELETE	api/areas/:areaId => Elimina un area específica por su ID
+router.delete("/:areaId", async (req, res, next) => {
+
+  try {
+
+    await Area.findByIdAndDelete(req.params.areaId)
+    res.json("The area has been removed")
+
+  } catch (error) {
+    next(error)
+    
+  }
+
+})
+
+// PUT	api/areas/:areaId => Actualiza totlamente un producto existente por su ID
+router.put("/:areaId", async (req, res, next) => {
+  const { areaId } = req.params;
+  const { name, image  } = req.body
+
+  console.log(req.params, req.body)
+
+  try {
+    await Area.findByIdAndUpdate(areaId, { name, image })
+    res.json("The area has been updated")
+    
+  } catch (error) {
     next(error)
   }
 
