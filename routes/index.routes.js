@@ -16,6 +16,9 @@ router.use("/products", productRouter)
 const areaRouter = require("./area.routes")
 router.use("/areas", areaRouter)
 
+const uploadRoutes = require("./upload.routes");
+router.use("/upload", uploadRoutes);
+
 
 
 
