@@ -81,24 +81,41 @@ router.post("/", async (req, res, next) => {
 //   }
 // });
 
+//********************************************** */
+// GET	api/reservations/:reservationId => Obtiene los detalles de una reserva por su ID
+// router.get("/:reservationId", async (req, res, next) => {
 
+//   console.log(req.params)
+
+//   try {
+
+//     const oneReservation = await Reservation.findById(req.params.reservationId)
+//     // console.log(oneReservation)
+
+//     res.json(oneReservation)
+
+//   } catch (error){
+//     next(error)
+//   }
+
+// })
+//********************************************** */
 // GET	api/reservations/:reservationId => Obtiene los detalles de una reserva por su ID
 router.get("/:reservationId", async (req, res, next) => {
-
-  console.log(req.params)
-
   try {
+    const { reservationId } = req.params;
 
-    const oneReservation = await Reservation.findById(req.params.reservationId)
-    // console.log(oneReservation)
+    const oneReservation = await Reservation.findById(reservationId)
+      .populate('user', 'username')
+      .populate('reservedArea', 'name');
 
-    res.json(oneReservation)
-
-  } catch (error){
-    next(error)
+    res.json(oneReservation);
+  } catch (error) {
+    next(error);
   }
+});
+//********************************************** */
 
-})
 
 // DELETE	api/reservations/:reservationId => Elimina una reserva específica por su ID
 router.delete("/:reservationId", async (req, res, next) => {
