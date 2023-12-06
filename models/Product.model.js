@@ -19,6 +19,10 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
+    // madeBy: {
+    //   type: String,
+    //   required: true,
+    // },
   },
   {
     timestamps: true,
