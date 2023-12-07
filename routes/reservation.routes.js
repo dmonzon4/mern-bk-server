@@ -1,10 +1,12 @@
 const Reservation = require("../models/Reservation.model");
 
+const isTokenValid = require('../middlewares/auth.middleware');
+
 const router = require("express").Router();
 
 
 
-// GET	api/reservations => Obtiene todas las reservas
+// // GET	api/reservations => Obtiene todas las reservas
 router.get("/", async (req, res, next) => {
 
   try {
@@ -19,6 +21,39 @@ router.get("/", async (req, res, next) => {
 
 
 })
+
+//************************************ */
+
+// // GET api/reservations/user/:userId => Obtiene las reservaciones de un usuario específico por su ID
+// router.get("/user/:userId", async (req, res, next) => {
+//   try {
+//     const { userId } = req.params;
+//     const userReservations = await Reservation.find({ user: userId });
+//     res.json(userReservations);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+//************************************ */
+
+// GET /api/user/reservations
+// router.get("/reservations", isTokenValid, async (req, res, next) => {
+//   try {
+//     // Obtener el ID del usuario del token proporcionado por el middleware
+//     const userId = req.payload._id;
+
+//     // Buscar las reservaciones del usuario en la base de datos
+//     const userReservations = await Reservation.find({ user: userId });
+
+//     res.json(userReservations);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+//************************************* */
+
+
 
 // POST	api/reservations/new-reservation => Crea una nueva reserva  <= Link?????????????????
 router.post("/", async (req, res, next) => {
